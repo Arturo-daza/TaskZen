@@ -12,5 +12,6 @@ try:
             )
                       ''')
     mi_conexion.commit()
+    mi_conexion.close()
 except Exception as ex: 
     print(ex)
