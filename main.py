@@ -42,4 +42,15 @@ async def create_task(task: Task, db: sqlite3.Connection = Depends(get_db)):
     task.id = cursor.lastrowid
     return task
 
+# Ruta para obtener lista de tareas
+@app.get("/tasks/", response_model=List[Task])
+async def get_tasks(db: sqlite3.Connection = Depends(get_db)):
+    cursor = db.cursor()
+    cursor.execute("SELECT * FROM tasks")
+    tasks = [
+        Task(**{'id': row[0], 'title': row[1], 'description': row[2], 'completed': row[3]}) 
+        for row in cursor.fetchall()
+    ]
+    return tasks
+
 
